@@ -10,17 +10,59 @@ print("Initial Rows (Test): ", len(de))
 
 pd.set_option('display.max_colwidth', None)
 
+#Format: ABC:ABC#ABC or ABC:ABC.ABC
+
 RE_hyperlinks = re.compile(
-    r'\b[A-Za-z][A-Za-z0-9_]*:'
+    r'\b'
+    r'[A-Za-z][A-Za-z_]*:'
     r'[A-Za-z0-9_()]+'
     r'(?:'
     r'#[A-Za-z0-9_().-]+'
     r'|'
     r'\.[A-Za-z0-9]{2,5}'
+    r'|'
+    r''
     r')'
     r'\b'
 )
 
-df["comment_text"] = df["comment_text"].astype(str).str.replace(RE_hyperlinks, "<HyperLink>", regex=True)
+#Format: NNN.NNN.NNN.NNN
 
-df.to_csv("Dataset/train.csv", index=False)
+RE_IP_addresses = re.compile(
+    r'\b'
+    r'[0-9]{1,3}'
+    r'\.'
+    r'[0-9]{1,3}'
+    r'\.'
+    r'[0-9]{1,3}'
+    r'\.'
+    r'[0-9]{1,3}'
+    r'\b'
+)
+
+#Format: HH:mm, Month DD, YYYY (UTC)
+
+#RE_date_and_time = re.compile(
+#    r'\b'
+#    r'[0-9]{2}:[0-9]{2}[,]'
+#    r' '
+#    r'[A-Za-z]*'
+#    r' '
+#    r'[0-9]{2}[,]'
+#    r' '
+#    r'[0-9]{4}'
+#    r' '
+#    r'[(][A-Z]*[)]'
+#    r'\b'
+#)
+
+print("1", df['comment_text'].str.findall(RE_hyperlinks).str.len().sum())
+print("2", df['comment_text'].str.findall(RE_IP_addresses).str.len().sum())
+print("3", df['comment_text'].str.findall(RE_date_and_time).str.len().sum())
+
+
+df["comment_text"] = df["comment_text"].astype(str).str.replace(RE_hyperlinks, "<HyperLink>", regex=True)
+df["comment_text"] = df["comment_text"].astype(str).str.replace(RE_IP_addresses, "<IP Address>", regex=True)
+df["comment_text"] = df["comment_text"].astype(str).str.replace(RE_date_and_time, "<Date and Time>", regex=True)
+
+#df.to_csv("Dataset/train.csv", index=False)
