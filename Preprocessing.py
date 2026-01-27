@@ -58,11 +58,11 @@ RE_IP_addresses = re.compile(
 
 print("1", df['comment_text'].str.findall(RE_hyperlinks).str.len().sum())
 print("2", df['comment_text'].str.findall(RE_IP_addresses).str.len().sum())
-print("3", df['comment_text'].str.findall(RE_date_and_time).str.len().sum())
+#print("3", df['comment_text'].str.findall(RE_date_and_time).str.len().sum())
 
 
 df["comment_text"] = df["comment_text"].astype(str).str.replace(RE_hyperlinks, "<HyperLink>", regex=True)
 df["comment_text"] = df["comment_text"].astype(str).str.replace(RE_IP_addresses, "<IP Address>", regex=True)
-df["comment_text"] = df["comment_text"].astype(str).str.replace(RE_date_and_time, "<Date and Time>", regex=True)
+#df["comment_text"] = df["comment_text"].astype(str).str.replace(RE_date_and_time, "<Date and Time>", regex=True)
 
 #df.to_csv("Dataset/train.csv", index=False)
