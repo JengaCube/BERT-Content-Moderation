@@ -32,3 +32,5 @@ class TextClassifierDataset(Dataset):
 
 train_dataset = TextClassifierDataset(train_tokenized, labels)
 test_dataset = TextClassifierDataset(test_tokenized, labels)
+
+model = AutoModelForSequenceClassification.from_pretrained("bert-base-uncased", problem_type="multi_label_classification", num_labels=6)
