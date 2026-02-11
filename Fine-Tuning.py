@@ -16,3 +16,19 @@ tokenizer = AutoTokenizer.from_pretrained('bert-base-uncased', do_lower_case=Tru
 
 train_tokenized = tokenizer(train_comments, padding="max_length", truncation=True, max_length=1024)
 test_tokenized = tokenizer(test_comments, padding="max_length", truncation=True, max_length=1024)
+
+class TextClassifierDataset(Dataset):
+    def __init__(self, encodings, labels):
+        self.encodings = encodings
+        self.labels = labels
+
+    def __len__(self):
+        return len(self.labels)
+
+    def __getitem__(self, idx):
+        item = {key: torch.tensor(val[idk]) for key, val in self.encodings.items()}
+        item["labels"] = torch.tensor(self.labels[idx])
+        return item
+
+train_dataset = TextClassifierDataset(train_tokenized, labels)
+test_dataset = TextClassifierDataset(test_tokenized, labels)
