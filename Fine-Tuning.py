@@ -3,19 +3,33 @@ import numpy as np
 import torch
 import transformers
 
-df_train = pd.read_csv('Dataset/train.csv', encoding="utf-8")
-df_test = pd.read_csv('Dataset/test.csv', encoding="utf-8")
+print("1")
+
+df_train = pd.read_csv('archive/train.csv', encoding="utf-8")
+df_test = pd.read_csv('archive/test.csv', encoding="utf-8")
+
+print("2")
 
 labels = ['toxic', 'severe_toxic', 'obscene', 'threat', 'insult', 'identity_hate']
 
+print("3")
+
 train_comments = df_train['comment_text'].tolist()
+
+print("4")
 
 test_comments = df_test['comment_text'].tolist()
 
+print("5")
+
 tokenizer = transformers.AutoTokenizer.from_pretrained('bert-base-uncased', do_lower_case=True)
+
+print("6")
 
 train_tokenized = tokenizer(train_comments, padding="max_length", truncation=True, max_length=1024)
 test_tokenized = tokenizer(test_comments, padding="max_length", truncation=True, max_length=1024)
+
+print("7")
 
 class TextClassifierDataset(Dataset):
     def __init__(self, encodings, labels):
@@ -30,13 +44,23 @@ class TextClassifierDataset(Dataset):
         item["labels"] = torch.tensor(self.labels[idx])
         return item
 
+print("8")
+
 train_dataset = TextClassifierDataset(train_tokenized, labels)
 test_dataset = TextClassifierDataset(test_tokenized, labels)
 
-model = AutoModelForSequenceClassification.from_pretrained("bert-base-uncased", problem_type="multi_label_classification", num_labels=6)
+print("9")
 
-training_arguments = TrainingArguments(ouput_dir=".", evaluation_strategy="epoch", per_device_train_batch_size=2, per_device_eval_batch_size=2)
+model = transformers.from_pretrained("bert-base-uncased", problem_type="multi_label_classification", num_labels=6)
 
-trainer = Trainer(model=model, args=training_arguments, train_dataset=train_datset, eval_dataset=test_dataset)
+print("10")
+
+training_arguments = transformers.TrainingArguments(ouput_dir=".", evaluation_strategy="epoch", per_device_train_batch_size=2, per_device_eval_batch_size=2)
+
+print("11")
+
+trainer = transformers.Trainer(model=model, args=training_arguments, train_dataset=train_datset, eval_dataset=test_dataset)
+
+print("12")
 
 trainer.train()
