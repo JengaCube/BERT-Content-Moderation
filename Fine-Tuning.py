@@ -12,7 +12,7 @@ train_comments = df_train['comment_text'].tolist()
 
 test_comments = df_test['comment_text'].tolist()
 
-tokenizer = AutoTokenizer.from_pretrained('bert-base-uncased', do_lower_case=True)
+tokenizer = transformers.AutoTokenizer.from_pretrained('bert-base-uncased', do_lower_case=True)
 
 train_tokenized = tokenizer(train_comments, padding="max_length", truncation=True, max_length=1024)
 test_tokenized = tokenizer(test_comments, padding="max_length", truncation=True, max_length=1024)
@@ -34,3 +34,9 @@ train_dataset = TextClassifierDataset(train_tokenized, labels)
 test_dataset = TextClassifierDataset(test_tokenized, labels)
 
 model = AutoModelForSequenceClassification.from_pretrained("bert-base-uncased", problem_type="multi_label_classification", num_labels=6)
+
+training_arguments = TrainingArguments(ouput_dir=".", evaluation_strategy="epoch", per_device_train_batch_size=2, per_device_eval_batch_size=2)
+
+trainer = Trainer(model=model, args=training_arguments, train_dataset=train_datset, eval_dataset=test_dataset)
+
+trainer.train()
