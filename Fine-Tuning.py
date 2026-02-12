@@ -26,8 +26,8 @@ tokenizer = transformers.AutoTokenizer.from_pretrained('bert-base-uncased', do_l
 
 print("6")
 
-train_tokenized = tokenizer(train_comments, padding="max_length", truncation=True, max_length=1024)
-test_tokenized = tokenizer(test_comments, padding="max_length", truncation=True, max_length=1024)
+train_tokenized = tokenizer(train_comments, padding="max_length", truncation=True, max_length=128)
+test_tokenized = tokenizer(test_comments, padding="max_length", truncation=True, max_length=128)
 
 print("7")
 
