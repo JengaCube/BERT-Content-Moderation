@@ -56,7 +56,7 @@ model = transformers.AutoModel.from_pretrained("bert-base-uncased", problem_type
 
 print("10")
 
-training_arguments = transformers.TrainingArguments(ouput_dir=".", evaluation_strategy="epoch", per_device_train_batch_size=2, per_device_eval_batch_size=2)
+training_arguments = transformers.TrainingArguments(output_dir=".", eval_strategy="epoch", per_device_train_batch_size=2, per_device_eval_batch_size=2)
 
 print("11")
 
