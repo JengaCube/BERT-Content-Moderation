@@ -60,7 +60,7 @@ training_arguments = transformers.TrainingArguments(ouput_dir=".", evaluation_st
 
 print("11")
 
-trainer = transformers.Trainer(model=model, args=training_arguments, train_dataset=train_datset, eval_dataset=test_dataset)
+trainer = transformers.Trainer(model=model, args=training_arguments, train_dataset=train_dataset, eval_dataset=test_dataset)
 
 print("12")
 
