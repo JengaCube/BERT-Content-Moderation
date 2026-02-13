@@ -60,7 +60,7 @@ test_dataset = TextClassifierDataset(test_tokenized, labels_list_test)
 
 print("9")
 
-model = transformers.AutoModel.from_pretrained("bert-base-uncased", problem_type="multi_label_classification", num_labels=6)
+model = transformers.AutoModelForSequenceClassification.from_pretrained("bert-base-uncased", problem_type="multi_label_classification", num_labels=6)
 
 print("10")
 
