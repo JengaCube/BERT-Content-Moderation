@@ -11,7 +11,15 @@ df_test = pd.read_csv('archive/test.csv', encoding="utf-8")
 
 print("2")
 
-labels = ['toxic', 'severe_toxic', 'obscene', 'threat', 'insult', 'identity_hate']
+not_labels = ['id', 'comment_text']
+
+label_columns = [col for col in df_train.columns if col not in not_labels]
+
+df_labels_train = df_train[label_columns]
+labels_list_train = df_labels_train.values.tolist()
+
+df_labels_test = pd.read_csv('archive/test_labels.csv', encoding="utf-8")
+labels_list_test = df_labels_test.values.tolist()
 
 print("3")
 
@@ -47,8 +55,8 @@ class TextClassifierDataset(Dataset):
 
 print("8")
 
-train_dataset = TextClassifierDataset(train_tokenized, labels)
-test_dataset = TextClassifierDataset(test_tokenized, labels)
+train_dataset = TextClassifierDataset(train_tokenized, labels_list_train)
+test_dataset = TextClassifierDataset(test_tokenized, labels_list_test)
 
 print("9")
 
