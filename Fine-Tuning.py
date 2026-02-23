@@ -51,3 +51,5 @@ trainer = transformers.Trainer(model=model, args=training_arguments, train_datas
 
 
 trainer.train()
+
+trainer.save_model("Saved Model")
