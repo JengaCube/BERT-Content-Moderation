@@ -12,9 +12,11 @@ label_columns = [col for col in df_train.columns if col not in not_labels]
 
 df_labels_train = df_train[label_columns]
 labels_list_train = df_labels_train.values.tolist()
+labels_list_train = torch.tensor(labels_list_train).float()
 
 df_labels_test = pd.read_csv('archive/test_labels.csv', encoding="utf-8")
 labels_list_test = df_labels_test.values.tolist()
+labels_list_test = torch.tensor(labels_list_test).float()
 
 train_comments = df_train['comment_text'].tolist()
 
