@@ -24,8 +24,8 @@ test_comments = df_test['comment_text'].tolist()
 
 tokenizer = transformers.AutoTokenizer.from_pretrained('bert-base-uncased', do_lower_case=True)
 
-train_tokenized = tokenizer(train_comments, padding="max_length", truncation=True, max_length=128)
-test_tokenized = tokenizer(test_comments, padding="max_length", truncation=True, max_length=128)
+train_tokenized = tokenizer(train_comments, padding="max_length", truncation=True, max_length=32)
+test_tokenized = tokenizer(test_comments, padding="max_length", truncation=True, max_length=32)
 
 class TextClassifierDataset(Dataset):
     def __init__(self, encodings, labels):
