@@ -21,3 +21,5 @@ for text in text_list:
     all_probabilities = []
 
     all_probabilities.append(probabilities)
+
+print(all_probabilities)
