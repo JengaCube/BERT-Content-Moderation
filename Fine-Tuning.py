@@ -45,7 +45,15 @@ test_dataset = TextClassifierDataset(test_tokenized, labels_list_test)
 
 model = transformers.AutoModelForSequenceClassification.from_pretrained("bert-base-uncased", problem_type="multi_label_classification", num_labels=6)
 
-training_arguments = transformers.TrainingArguments(output_dir=".", eval_strategy="epoch", per_device_train_batch_size=16, per_device_eval_batch_size=16)
+training_arguments = transformers.TrainingArguments(
+output_dir="Dump",
+eval_strategy="epoch",
+per_device_train_batch_size=16,
+per_device_eval_batch_size=16,
+learning_rate=2e-5,
+num_train_epochs=4,
+weight_decay=0.01
+)
 
 trainer = transformers.Trainer(model=model, args=training_arguments, train_dataset=train_dataset, eval_dataset=test_dataset)
 
