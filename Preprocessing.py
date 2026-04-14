@@ -65,4 +65,4 @@ df["comment_text"] = df["comment_text"].astype(str).str.replace(RE_hyperlinks, "
 df["comment_text"] = df["comment_text"].astype(str).str.replace(RE_IP_addresses, "<IP Address>", regex=True)
 #df["comment_text"] = df["comment_text"].astype(str).str.replace(RE_date_and_time, "<Date and Time>", regex=True)
 
-#df.to_csv("Dataset/train.csv", index=False)
+#df.to_csv("Outputs/Dataset/train.csv", index=False)

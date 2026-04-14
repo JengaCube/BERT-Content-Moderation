@@ -60,4 +60,4 @@ trainer = transformers.Trainer(model=model, args=training_arguments, train_datas
 
 trainer.train()
 
-trainer.save_model("SavedModel/Model.pth")
+trainer.save_model("Outputs/SavedModel/Model.pth")

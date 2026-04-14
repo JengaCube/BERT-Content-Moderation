@@ -31,4 +31,4 @@ for text in text_list:
 
 
 print(df)
-df.to_csv('output.csv', index=False)
+df.to_csv('Outputs/output.csv', index=False)
