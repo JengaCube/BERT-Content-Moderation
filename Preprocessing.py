@@ -1,8 +1,8 @@
 import pandas as pd
 import re
 
-df = pd.read_csv('Dataset/train.csv', encoding="utf-8")
-de = pd.read_csv('Dataset/test.csv', encoding="utf-8")
+df = pd.read_csv('archive/train.csv', encoding="utf-8")
+de = pd.read_csv('archive/test.csv', encoding="utf-8")
 
 
 print("Initial Rows (Train): ", len(df))
@@ -40,29 +40,12 @@ RE_IP_addresses = re.compile(
     r'\b'
 )
 
-#Format: HH:mm, Month DD, YYYY (UTC)
-
-#RE_date_and_time = re.compile(
-#    r'\b'
-#    r'[0-9]{2}:[0-9]{2}[,]'
-#    r' '
-#    r'[A-Za-z]*'
-#    r' '
-#    r'[0-9]{2}([,]|"")'
-#    r' '
-#    r'[0-9]{4}'
-#    r' '
-#    r'[(][A-Z]*[)]'
-#    r'\b'
-#)
-
 print("1", df['comment_text'].str.findall(RE_hyperlinks).str.len().sum())
 print("2", df['comment_text'].str.findall(RE_IP_addresses).str.len().sum())
-#print("3", df['comment_text'].str.findall(RE_date_and_time).str.len().sum())
 
 
 df["comment_text"] = df["comment_text"].astype(str).str.replace(RE_hyperlinks, "<HyperLink>", regex=True)
 df["comment_text"] = df["comment_text"].astype(str).str.replace(RE_IP_addresses, "<IP Address>", regex=True)
-#df["comment_text"] = df["comment_text"].astype(str).str.replace(RE_date_and_time, "<Date and Time>", regex=True)
 
-#df.to_csv("Outputs/Dataset/train.csv", index=False)
+
+df.to_csv("Outputs/train.csv", index=False)
