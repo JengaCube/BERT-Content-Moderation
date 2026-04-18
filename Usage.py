@@ -7,8 +7,8 @@ tokenizer = transformers.AutoTokenizer.from_pretrained('bert-base-uncased', do_l
 
 model = transformers.AutoModelForSequenceClassification.from_pretrained("SavedModel/Model.pth")
 
-df_test = pd.read_csv('archive/test.csv', encoding="UTF-8")
-df_labels = pd.read_csv("archive/test_labels.csv")
+df_test = pd.read_csv('archive-lite/test.csv', encoding="UTF-8")
+df_labels = pd.read_csv("archive-lite/test_labels.csv")
 
 LABELS = ["toxic","severe_toxic","obscene","threat","insult","identity_hate"]
 
@@ -43,7 +43,7 @@ for text in text_list:
 
 
 df = pd.DataFrame(rows, columns=["comment_text"] + LABELS)
-print(df)
+print(preds)
 df.to_csv('Outputs/output.csv', index=False)
 
 metrics(preds, y_true)
