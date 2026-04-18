@@ -22,7 +22,7 @@ labels_list_eval = torch.tensor(labels_list_eval).float()
 
 
 train_comments = df_train['comment_text'].tolist()
-eval_comments = df_train['comment_text'].tolist()
+eval_comments = df_eval['comment_text'].tolist()
 
 tokenizer = transformers.AutoTokenizer.from_pretrained('bert-base-uncased', do_lower_case=True)
 
