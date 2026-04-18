@@ -15,7 +15,7 @@ def metrics(preds, y_true):
     fpr_results = {}
 
     for i, label in enumerate(LABELS):
-        tn, fp, fn, tp = confusion_matrix(y_true[:, i], y_pred.values[:, i]).ravel()
+        tn, fp, fn, tp = confusion_matrix(y_true[:, i],y_pred.values[:, i],labels=[0, 1]).ravel()
         fpr = fp / (fp + tn) if (fp + tn) > 0 else 0
         fpr_results[label] = fpr
 
