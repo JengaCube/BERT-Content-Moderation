@@ -21,29 +21,31 @@ headers = ["comment", "toxic", "severe_toxic", "obscene", "threat", "insult", "i
 df = pd.DataFrame(columns=headers)
 
 model.eval()
-preds = []
-rows = []
 
-threshold = 0.5
+for x in range(0, 18):
+    preds = []
+    rows = []
+    threshold = 0.1 + (0.05 * x)
+    print(threshold)
+    for text in text_list:
 
-for text in text_list:
-    inputs = tokenizer(text, padding=True, truncation=True, return_tensors="pt")
+        inputs = tokenizer(text, padding=True, truncation=True, return_tensors="pt")
 
-    with torch.no_grad():
-        outputs = model(**inputs)
+        with torch.no_grad():
+            outputs = model(**inputs)
 
-    probs = torch.sigmoid(outputs.logits).cpu().numpy()[0]
-
-
-    binary_preds = (probs >= threshold).astype(int)
-    preds.append(binary_preds)
-
-    row = [text] + probs.tolist()
-    rows.append(row)
+        probs = torch.sigmoid(outputs.logits).cpu().numpy()[0]
 
 
-df = pd.DataFrame(rows, columns=["comment_text"] + LABELS)
-print(preds)
-df.to_csv('Outputs/output.csv', index=False)
+        binary_preds = (probs >= threshold).astype(int)
+        preds.append(binary_preds)
 
-metrics(preds, y_true)
+        row = [text] + probs.tolist()
+        rows.append(row)
+
+
+    df = pd.DataFrame(rows, columns=["comment_text"] + LABELS)
+
+    df.to_csv('Outputs/output.csv', index=False)
+
+    metrics(preds, y_true)
