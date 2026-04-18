@@ -4,6 +4,10 @@ import transformers
 from transformers.pipelines.base import Dataset
 from sklearn.model_selection import train_test_split
 
+seed = 42
+torch.manual_seed(seed)
+torch.cuda.manual_seed_all(seed)
+
 df_train = pd.read_csv('archive/train.csv', encoding="utf-8")
 
 not_labels = ['id', 'comment_text']
@@ -54,7 +58,8 @@ per_device_train_batch_size=16,
 per_device_eval_batch_size=16,
 learning_rate=2e-5,
 num_train_epochs=4,
-weight_decay=0.01
+weight_decay=0.01,
+seed=seed
 )
 
 trainer = transformers.Trainer(model=model, args=training_arguments, train_dataset=train_dataset, eval_dataset=eval_dataset)
