@@ -1,8 +1,9 @@
 import pandas as pd
 import torch
 import transformers
-from transformers.pipelines.base import Dataset
+from torch.utils.data import Dataset
 from sklearn.model_selection import train_test_split
+import numpy as np  # ADDED
 
 df_train = pd.read_csv('archive/train.csv', encoding="utf-8")
 
@@ -11,6 +12,14 @@ not_labels = ['id', 'comment_text']
 label_columns = [col for col in df_train.columns if col not in not_labels]
 
 df_train, df_eval = train_test_split(df_train, test_size=0.2, random_state=42)
+
+label_counts = df_train[label_columns].sum(axis=0).values
+num_samples = len(df_train)
+
+pos_weight = torch.tensor(
+    (num_samples - label_counts) / np.maximum(label_counts, 1),
+    dtype=torch.float
+)
 
 df_labels_train = df_train[label_columns]
 labels_list_train = df_labels_train.values.tolist()
@@ -26,8 +35,8 @@ eval_comments = df_eval['comment_text'].tolist()
 
 tokenizer = transformers.AutoTokenizer.from_pretrained('bert-base-uncased', do_lower_case=True)
 
-train_tokenized = tokenizer(train_comments, padding="max_length", truncation=True, max_length=128)
-eval_tokenized = tokenizer(eval_comments, padding="max_length", truncation=True, max_length=128)
+train_tokenized = tokenizer(train_comments, padding="max_length", truncation=True, max_length=256)
+eval_tokenized = tokenizer(eval_comments, padding="max_length", truncation=True, max_length=256)
 
 class TextClassifierDataset(Dataset):
     def __init__(self, encodings, labels):
@@ -39,26 +48,43 @@ class TextClassifierDataset(Dataset):
 
     def __getitem__(self, idx):
         item = {key: torch.tensor(val[idx]) for key, val in self.encodings.items()}
-        item["labels"] = torch.tensor(self.labels[idx])
+        item["labels"] = self.labels[idx]
         return item
 
 train_dataset = TextClassifierDataset(train_tokenized, labels_list_train)
 eval_dataset = TextClassifierDataset(eval_tokenized, labels_list_eval)
 
 model = transformers.AutoModelForSequenceClassification.from_pretrained("bert-base-uncased", problem_type="multi_label_classification", num_labels=6)
+class WeightedTrainer(transformers.Trainer):
+    def compute_loss(self, model, inputs, return_outputs=False, **kwargs):
+        labels = inputs.pop("labels")
+        outputs = model(**inputs)
+        logits = outputs.logits
+
+        loss_fct = torch.nn.BCEWithLogitsLoss(
+            pos_weight=pos_weight.to(logits.device)
+        )
+
+        loss = loss_fct(logits, labels)
+
+        return (loss, outputs) if return_outputs else loss
 
 training_arguments = transformers.TrainingArguments(
-output_dir="Dump",
-eval_strategy="epoch",
-per_device_train_batch_size=16,
-per_device_eval_batch_size=16,
-learning_rate=2e-5,
-num_train_epochs=4,
-weight_decay=0.01
+    output_dir="Dump",
+    eval_strategy="epoch",
+    per_device_train_batch_size=16,
+    per_device_eval_batch_size=16,
+    learning_rate=2e-5,
+    num_train_epochs=4,
+    weight_decay=0.01,
+    save_strategy="epoch",
+    load_best_model_at_end=True,
+    metric_for_best_model="eval_loss",
+    greater_is_better=False,
 )
 
-trainer = transformers.Trainer(model=model, args=training_arguments, train_dataset=train_dataset, eval_dataset=eval_dataset)
+trainer = WeightedTrainer(model=model, args=training_arguments, train_dataset=train_dataset, eval_dataset=eval_dataset)
 
 trainer.train()
 
-trainer.save_model("Outputs/SavedModel/Model.pth")
+trainer.save_model("Outputs/SavedModel/Model")
