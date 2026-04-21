@@ -21,7 +21,7 @@ y_true = df_labels.loc[mask, LABELS].values
 
 vectorizer = TfidfVectorizer(max_features=20000, stop_words="english")
 train_vectorised = vectorizer.fit_transform(X)
-test_vectorised = vectorizer.fit_transform(text_list)
+test_vectorised = vectorizer.transform(text_list)
 
 model = OneVsRestClassifier(LogisticRegression(max_iter=1000))
 model.fit(train_vectorised, y)
