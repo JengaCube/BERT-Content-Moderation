@@ -48,9 +48,9 @@ df["comment_text"] = df["comment_text"].astype(str).str.replace(RE_hyperlinks, "
 df["comment_text"] = df["comment_text"].astype(str).str.replace(RE_IP_addresses, "<IP Address>", regex=True)
 
 
-df.to_csv("Outputs/train.csv", index=False)
+df.to_csv("archive/train.csv", index=False)
 
-de["comment_text"] = df["comment_text"].astype(str).str.replace(RE_hyperlinks, "<HyperLink>", regex=True)
-de["comment_text"] = df["comment_text"].astype(str).str.replace(RE_IP_addresses, "<IP Address>", regex=True)
+de["comment_text"] = de["comment_text"].astype(str).str.replace(RE_hyperlinks, "<HyperLink>", regex=True)
+de["comment_text"] = de["comment_text"].astype(str).str.replace(RE_IP_addresses, "<IP Address>", regex=True)
 
-de.to_csv("Outputs/test.csv", index=False)
+de.to_csv("archive/test.csv", index=False)
