@@ -2,7 +2,6 @@ import torch
 import transformers
 import pandas as pd
 from Metrics import metrics
-import sys
 
 tokenizer = transformers.AutoTokenizer.from_pretrained('bert-base-uncased', do_lower_case=True)
 
