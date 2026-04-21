@@ -7,7 +7,10 @@ import sys
 tokenizer = transformers.AutoTokenizer.from_pretrained('bert-base-uncased', do_lower_case=True)
 
 
-model = transformers.AutoModelForSequenceClassification.from_pretrained("SavedModel/Model.pth")
+model = transformers.AutoModelForSequenceClassification.from_pretrained("SavedModel/Model")
+
+device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+model.to(device)
 
 print("(1) Metrics eval")
 print("(2) Manual Input")
@@ -42,6 +45,8 @@ if mode == 1:
         for text in text_list:
 
             inputs = tokenizer(text, padding=True, truncation=True, return_tensors="pt")
+
+            inputs = inputs.to(device)
 
             with torch.no_grad():
                 outputs = model(**inputs)
