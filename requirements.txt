@@ -61,8 +61,6 @@ six==1.17.0
 sympy==1.14.0
 threadpoolctl==3.6.0
 tokenizers==0.22.2
-torch==2.11.0+rocm7.2
-torchvision==0.26.0+rocm7.2
 tqdm==4.67.3
 transformers==5.5.4
 triton==3.6.0
