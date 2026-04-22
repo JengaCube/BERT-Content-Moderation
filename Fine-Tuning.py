@@ -87,4 +87,4 @@ trainer = WeightedTrainer(model=model, args=training_arguments, train_dataset=tr
 
 trainer.train()
 
-trainer.save_model("Outputs/SavedModel/Model")
+trainer.save_model("SavedModel/Model")
