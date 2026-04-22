@@ -3,7 +3,7 @@ import torch
 import transformers
 from torch.utils.data import Dataset
 from sklearn.model_selection import train_test_split
-import numpy as np  # ADDED
+import numpy as np
 
 df_train = pd.read_csv('archive/train.csv', encoding="utf-8")
 
