@@ -1,0 +1,249 @@
+Toxic Comment Detection System
+
+Overview
+
+This project is a Python-based system for detecting toxic online comments using multiple machine learning approaches.
+It implements and compares three distinct models:
+
+-BERT (bert-base-uncased) – deep learning transformer model
+-TF-IDF + OneVsRest Classifier – traditional machine learning approach
+-Rule-Based Model – keyword/pattern-based classification
+
+The system performs multi-label classification across six toxicity categories using real-world data from Kaggle.
+
+---
+
+Features
+
+-Multi-label toxic comment classification
+-Three independent modelling approaches
+-Command-line interface for training and inference
+-Shared evaluation pipeline across all models
+-Real dataset integration from Kaggle
+
+---
+
+Labels Predicted
+
+- toxic
+- severe_toxic
+- obscene
+- threat
+- insult
+- identity_hate
+
+---
+
+Tech Stack
+
+-Language: Python (Recommended: Python 3.13)
+-Libraries:
+
+  - pandas
+  - numpy
+  - scikit-learn
+  - transformers
+  - torch
+  - nltk / regex
+  - accelerate
+  - matplotlib
+
+---
+
+Installation
+
+1. Clone the repository
+
+git clone https://github.com/JegaCube/BERT-Content-Moderation
+cd BERT-Content-Moderation
+
+2. Install dependencies
+
+pip install -r requirements.txt
+
+3. (Optional) Install PyTorch for BERT Training
+
+If you plan to train the BERT model, it is strongly recommended to install PyTorch using the official selector:
+
+https://pytorch.org/get-started/locally/
+
+-Use CUDA for NVIDIA GPUs
+-Use ROCm for AMD GPUs
+
+This ensures optimal performance during training.
+
+If you do not plan to train BERT or already have a trained model, you can install the CPU version:
+
+pip install torch
+
+---
+
+4. Download dataset
+
+Download the dataset manually from Kaggle:
+
+https://www.kaggle.com/datasets/julian3833/jigsaw-toxic-comment-classification-challenge
+
+5. Set up dataset directory
+
+Place the CSV files in the following structure:
+
+project-root/
+│── archive/
+│     ├── train.csv
+│     ├── test.csv
+│     ├── test_labels.csv
+│── Preprocessing.py
+│── Fine-Tuning.py
+│── Usage.py
+│── TF-IDF FineTuning and usage.py
+│── Rule-Based.py
+│── Metrics.py
+
+The archive folder must be in the same directory as the scripts.
+
+How to Run
+
+Step 1: Preprocess Data
+
+python Preprocessing.py
+
+This step prepares the dataset by:
+
+- Removing links
+- Removing IP addresses
+- Cleaning raw text inputs
+
+---
+
+Choose a Model
+
+Rule-Based Model
+
+python Rule-Based.py
+
+-No training required
+-Uses keyword and pattern matching
+
+---
+
+TF-IDF Model (OneVsRest)
+
+python "TF-IDF FineTuning and usage.py"
+
+- Uses TF-IDF vectorisation
+- Multi-label classification via OneVsRest
+
+---
+
+BERT Model (bert-base-uncased)
+
+Train the model
+
+python Fine-Tuning.py
+
+- Fine-tunes BERT for multi-label classification
+- Model is saved locally in:
+
+SavedModel/Model/
+
+Run evaluation / predictions
+
+python Usage.py
+
+---
+
+User Input
+
+You can input custom text directly through the terminal when running supported scripts:
+
+Please enter your model prompt:
+
+Example:
+
+Input: "You are an idiot"
+Output: toxic, insult
+
+---
+
+Evaluation Metrics
+
+All models are evaluated using:
+
+- Precision
+- Recall
+- F1-score
+- False Positive Rate (FPR)
+- Confusion Matrix
+
+Example Output
+
+              precision    recall  f1-score   support
+
+        toxic       0.10      0.06      0.07      6090
+ severe_toxic       0.01      0.03      0.01       367
+      obscene       0.05      0.14      0.08      3691
+       threat       0.00      0.00      0.00       211
+       insult       0.06      0.06      0.06      3427
+identity_hate       0.01      0.01      0.01       712
+
+    micro avg       0.06      0.07      0.06     14498
+    macro avg       0.04      0.05      0.04     14498
+ weighted avg       0.07      0.07      0.06     14498
+  samples avg       0.01      0.01      0.01     14498
+
+
+False Positive Rate (per label):
+toxic: 0.0564
+severe_toxic: 0.0255
+obscene: 0.1455
+threat: 0.0007
+insult: 0.0528
+identity_hate: 0.0114
+
+---
+
+Project Structure
+
+project-root/
+│── archive/
+│── SavedModel/
+│     └── Model/
+│── Preprocessing.py
+│── Fine-Tuning.py
+│── Usage.py
+│── TF-IDF FineTuning and usage.py
+│── Rule-Based.py
+│── Metrics.py
+│── requirements.txt
+│── README.md
+
+---
+
+Notes
+
+- Each model is executed independently
+- Preprocessing must be completed before running models
+- All models use shared evaluation logic from `Metrics.py`
+
+---
+
+Troubleshooting
+
+- Ensure dependencies are installed correctly
+- Verify dataset is placed inside the `archive` folder
+- Confirm correct script execution order
+- Use Python 3.13 for best compatibility
+
+---
+
+License
+
+MIT License
+
+---
+
+Author
+
+Your Name
+GitHub: https://github.com/JengaCube
