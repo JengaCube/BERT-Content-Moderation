@@ -54,7 +54,7 @@ Installation
 
 1. Clone the repository
 
-git clone https://github.com/JegaCube/BERT-Content-Moderation
+git clone https://github.com/JengaCube/BERT-Content-Moderation
 cd BERT-Content-Moderation
 
 2. Install dependencies
@@ -245,7 +245,5 @@ MIT License
 
 ---
 
-Author
-
-Your Name
+Your Name: JengaCube
 GitHub: https://github.com/JengaCube
