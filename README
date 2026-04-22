@@ -114,6 +114,8 @@ This step prepares the dataset by:
 - Removing IP addresses
 - Cleaning raw text inputs
 
+It is important the you run this first so that the Outputs directory is made for the other scripts to output to.
+
 ---
 
 Choose a Model
