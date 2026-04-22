@@ -97,4 +97,6 @@ elif mode == 2:
 
     df = pd.DataFrame(rows, columns=["comment_text"] + LABELS)
 
-print("Model output.csv can be found in the Outputs folder")
+    df.to_csv('Outputs/output.csv', index=False)
+
+print("Predictions can be found in Outputs/outputs.csv")
