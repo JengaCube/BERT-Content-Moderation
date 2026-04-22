@@ -2,6 +2,8 @@ import pandas as pd
 import re
 import os
 
+os.makedirs("Outputs", exist_ok=True)
+
 df = pd.read_csv('archive/train.csv', encoding="utf-8")
 de = pd.read_csv('archive/test.csv', encoding="utf-8")
 
