@@ -84,12 +84,11 @@ Download the dataset manually from Kaggle:
 
 https://www.kaggle.com/datasets/julian3833/jigsaw-toxic-comment-classification-challenge
 
-5. Set up dataset and Outputs directory
+5. Set up dataset directory
 
 Place the CSV files in the following structure:
 
 project-root/
-│── Outputs/
 │── archive/
 │     ├── train.csv
 │     ├── test.csv
@@ -114,6 +113,8 @@ This step prepares the dataset by:
 - Removing links
 - Removing IP addresses
 - Cleaning raw text inputs
+
+It is important that you run this first so that the Outputs directory is made
 
 ---
 
