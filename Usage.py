@@ -19,7 +19,7 @@ mode = 3
 while mode >= 3:
     print("(1) Metrics eval")
     print("(2) Manual Input")
-    mode = int(input(""))
+    mode = int(input(":"))
     if mode == 1:
         df_test = pd.read_csv('archive/test.csv', encoding="UTF-8")
         df_labels = pd.read_csv("archive/test_labels.csv")
@@ -71,7 +71,7 @@ elif mode == 2:
     threshold = 0.95
 
     while mode == 2:
-        text = str(input("Please enter you model prompt"))
+        text = str(input("Please enter you model prompt:"))
         inputs = tokenizer(text, padding=True, truncation=True, return_tensors="pt")
 
         inputs = inputs.to(device)
